@@ -27,17 +27,17 @@ namespace DB_lab_3__BookStock
             using (var context = new StoreContext())
             {
                 var stores = context.Stores.ToList();
-                cboStore.DataSource = stores;
-                cboStore.ValueMember = "Id";
-                cboStore.DisplayMember = "Name";
+                cboStores.DataSource = stores;
+                cboStores.ValueMember = "Id";
+                cboStores.DisplayMember = "Name";
             }
         }
  
-        private void cboStore_SelectionChangeCommitted(object sender, EventArgs e)
+        private void PopulateTable(object sender, EventArgs e)
         {
-            Object selectedItem = cboStore.SelectedItem;
-            int storeName = Int32.Parse(cboStore.SelectedValue.ToString());
-           
+            Object selectedItem = cboStores.SelectedItem;
+            string selectedStore = cboStores.GetItemText(cboStores.SelectedItem);
+
             if (selectedItem != null)
             {
                 storeView.DataSource = false;
@@ -46,7 +46,8 @@ namespace DB_lab_3__BookStock
                 {                    
                     using (var context = new StoreContext())
                     {
-                        StoreContext.FetchStores(storeName);                      
+                        int storeId = (from s in context.Stores where s.Name == selectedStore select s.Id).FirstOrDefault();
+                        StoreContext.FetchStores(storeId);                      
                         storeView.DataSource = StoreContext.stockView;
                     }
                 }
@@ -60,13 +61,13 @@ namespace DB_lab_3__BookStock
         }   
              
 
-        private void removeBook_Click(object sender, EventArgs e)
+        private void RemoveBook_Click(object sender, EventArgs e)
         {
             var form = new RemoveBook();
             form.ShowDialog();
         }
 
-        private void addBook_Click(object sender, EventArgs e)
+        private void AddBook_Click(object sender, EventArgs e)
         {
             var form = new AddBook();
             form.ShowDialog();

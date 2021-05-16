@@ -59,16 +59,19 @@ namespace DB_lab_3__BookStock
             this.cboStores.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboStores.FormattingEnabled = true;
             this.cboStores.Location = new System.Drawing.Point(118, 19);
+            this.cboStores.MaxDropDownItems = 100;
             this.cboStores.Name = "cboStores";
             this.cboStores.Size = new System.Drawing.Size(265, 23);
-            this.cboStores.TabIndex = 2;            
-            this.cboStores.SelectionChangeCommitted += new System.EventHandler(this.CboStores_LoadStores);
+            this.cboStores.Sorted = true;
+            this.cboStores.TabIndex = 2;
+            this.cboStores.SelectionChangeCommitted += new System.EventHandler(this.CboStores_LoadBooks);
             // 
             // cboBooks
             // 
             this.cboBooks.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboBooks.FormattingEnabled = true;
             this.cboBooks.Location = new System.Drawing.Point(118, 47);
+            this.cboBooks.MaxDropDownItems = 100;
             this.cboBooks.Name = "cboBooks";
             this.cboBooks.Size = new System.Drawing.Size(265, 23);
             this.cboBooks.TabIndex = 3;
@@ -96,7 +99,6 @@ namespace DB_lab_3__BookStock
             this.Name = "RemoveBook";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Remove book";
-            
             this.ResumeLayout(false);
             this.PerformLayout();
 

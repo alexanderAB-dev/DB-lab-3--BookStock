@@ -30,7 +30,7 @@ namespace DB_lab_3__BookStock
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.cboStore = new System.Windows.Forms.ComboBox();
+            this.cboStores = new System.Windows.Forms.ComboBox();
             this.storeView = new System.Windows.Forms.DataGridView();
             this.addBook = new System.Windows.Forms.Button();
             this.refresView = new System.Windows.Forms.Button();
@@ -47,18 +47,24 @@ namespace DB_lab_3__BookStock
             this.label1.TabIndex = 0;
             this.label1.Text = "Select store:";
             // 
-            // cboStore
+            // cboStores
             // 
-            this.cboStore.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboStore.FormattingEnabled = true;
-            this.cboStore.Location = new System.Drawing.Point(88, 6);
-            this.cboStore.Name = "cboStore";
-            this.cboStore.Size = new System.Drawing.Size(183, 23);
-            this.cboStore.TabIndex = 1;
-            this.cboStore.SelectionChangeCommitted += new System.EventHandler(this.cboStore_SelectionChangeCommitted);
+            this.cboStores.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboStores.FormattingEnabled = true;
+            this.cboStores.Location = new System.Drawing.Point(88, 6);
+            this.cboStores.MaxDropDownItems = 100;
+            this.cboStores.Name = "cboStores";
+            this.cboStores.Size = new System.Drawing.Size(183, 23);
+            this.cboStores.Sorted = true;
+            this.cboStores.TabIndex = 1;
+            this.cboStores.SelectionChangeCommitted += new System.EventHandler(this.PopulateTable);
             // 
             // storeView
             // 
+            this.storeView.AllowUserToAddRows = false;
+            this.storeView.AllowUserToDeleteRows = false;
+            this.storeView.AllowUserToOrderColumns = true;
+            this.storeView.AllowUserToResizeColumns = false;
             this.storeView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.storeView.Location = new System.Drawing.Point(88, 44);
             this.storeView.Name = "storeView";
@@ -74,7 +80,7 @@ namespace DB_lab_3__BookStock
             this.addBook.TabIndex = 3;
             this.addBook.Text = "Add book";
             this.addBook.UseVisualStyleBackColor = true;
-            this.addBook.Click += new System.EventHandler(this.addBook_Click);
+            this.addBook.Click += new System.EventHandler(this.AddBook_Click);
             // 
             // refresView
             // 
@@ -84,7 +90,7 @@ namespace DB_lab_3__BookStock
             this.refresView.TabIndex = 4;
             this.refresView.Text = "Refresh view";
             this.refresView.UseVisualStyleBackColor = true;
-            this.refresView.Click += new System.EventHandler(this.cboStore_SelectionChangeCommitted);
+            this.refresView.Click += new System.EventHandler(this.PopulateTable);
             // 
             // removeBook
             // 
@@ -94,7 +100,7 @@ namespace DB_lab_3__BookStock
             this.removeBook.TabIndex = 5;
             this.removeBook.Text = "Remove book";
             this.removeBook.UseVisualStyleBackColor = true;
-            this.removeBook.Click += new System.EventHandler(this.removeBook_Click);
+            this.removeBook.Click += new System.EventHandler(this.RemoveBook_Click);
             // 
             // BookStock
             // 
@@ -105,7 +111,7 @@ namespace DB_lab_3__BookStock
             this.Controls.Add(this.refresView);
             this.Controls.Add(this.addBook);
             this.Controls.Add(this.storeView);
-            this.Controls.Add(this.cboStore);
+            this.Controls.Add(this.cboStores);
             this.Controls.Add(this.label1);
             this.Name = "BookStock";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -119,7 +125,7 @@ namespace DB_lab_3__BookStock
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox cboStore;
+        private System.Windows.Forms.ComboBox cboStores;
         private System.Windows.Forms.DataGridView storeView;
         private System.Windows.Forms.Button addBook;
         private System.Windows.Forms.Button refresView;

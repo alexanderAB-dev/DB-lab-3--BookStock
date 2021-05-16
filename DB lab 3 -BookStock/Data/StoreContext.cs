@@ -54,6 +54,7 @@ namespace DB_lab_3__BookStock
                                 join sq in context.Stock on s.Id equals sq.StoreId
                                 join b in context.Books on sq.Isbn equals b.Isbn13
                                 where s.Id == storeName
+                                orderby s.Name descending
                                 select new
                                 {
                                     Store = s.Name,
@@ -65,7 +66,7 @@ namespace DB_lab_3__BookStock
                     stockView.Add(
                         new StockView
                         {
-                            Store = s.Store,
+                            Store = s.Store,s
                             Book = s.Book,
                             Quantity = s.Quantity
                         });
@@ -73,6 +74,7 @@ namespace DB_lab_3__BookStock
                 }
 
             }
+            stockView.Sort((x, y) => y.Quantity.CompareTo(x.Quantity));
             return stockView;
         }
         public static List<Book> LoadStoreBooks(int storeName)
@@ -83,23 +85,26 @@ namespace DB_lab_3__BookStock
                 var storeBooks = from b in context.Books
                                  join sq in context.Stock on b.Isbn13 equals sq.Isbn
                                  join s in context.Stores on sq.StoreId equals s.Id
-                                 where s.Id == storeName
+                                 where s.Id == storeName                                 
                                  select new
                                  {
-                                     Store = s.Name,
+                                    
                                      Book = b.Title,
-                                     Quantity = sq.Quantity
+                                     Isbn13 = b.Isbn13
+                                    
                                  };
                 foreach (var b in storeBooks.ToList())
                 {
                     bookView.Add(
                         new Book
                         {                            
-                            Title = b.Book
+                            Title = b.Book,
+                            Isbn13 = b.Isbn13
                         });
 
                 }
-                return bookView;
+                bookView.Sort((x,y) => x.Title.CompareTo(y.Title));
+                return bookView; 
             }
         }
         public void DeleteBook(int storeId, string isbn) 

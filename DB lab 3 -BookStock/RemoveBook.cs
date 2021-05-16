@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -25,29 +26,31 @@ namespace DB_lab_3__BookStock
                 var stores = context.Stores.ToList();
                 cboStores.DataSource = stores;
                 cboStores.ValueMember = "Id";
-                cboStores.DisplayMember = "Name";
-                var books = context.Books.ToList();
+                cboStores.DisplayMember = "Name";                
+                
 
             }
         }
 
-        private void CboStores_LoadStores(object sender, EventArgs e)
+        private void CboStores_LoadBooks(object sender, EventArgs e)
         {
             Object selectedItem = cboStores.SelectedItem;
-            int storeName = Int32.Parse(cboStores.SelectedValue.ToString());
+            string selectedStore = cboStores.GetItemText(cboStores.SelectedItem);
 
             if (selectedItem != null)
             {
-                cboBooks.DataSource = null;               
+                cboBooks.DataSource = null;
                 cboBooks.ValueMember = "ISBN13";
                 cboBooks.DisplayMember = "Title";
+
                 Cursor.Current = Cursors.WaitCursor;
                 try
                 {
 
                     using (var context = new StoreContext())
                     {
-                        StoreContext.LoadStoreBooks(storeName);                    
+                        int storeId = (from s in context.Stores where s.Name == selectedStore select s.Id).FirstOrDefault();
+                        StoreContext.LoadStoreBooks(storeId);
                         cboBooks.DataSource = StoreContext.bookView;
                     }
                 }
@@ -58,19 +61,26 @@ namespace DB_lab_3__BookStock
                 Cursor.Current = Cursors.Default;
             }
 
-        }     
-                       
+        }
+
 
         private void RemoveBook1_Click(object sender, EventArgs e)
         {
-            int storeID = Convert.ToInt32(cboStores.SelectedValue.GetHashCode());
+            string selectedStore = cboStores.GetItemText(cboStores.SelectedItem);
             string selectedBook = cboBooks.GetItemText(cboBooks.SelectedItem);
-            
-            using (var context = new StoreContext())
+            try
             {
-                var id = (from b in context.Books where b.Title == selectedBook select b.Isbn13).FirstOrDefault();
-                string isbn = id.ToString();
-                context.DeleteBook(storeID, isbn);
+                using (var context = new StoreContext())
+                {
+                    int storeId = (from s in context.Stores where s.Name == selectedStore select s.Id).FirstOrDefault();
+                    string isbn = (from b in context.Books where b.Title == selectedBook select b.Isbn13).FirstOrDefault();
+
+                    context.DeleteBook(storeId, isbn);
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.ToString());
             }
         }
 

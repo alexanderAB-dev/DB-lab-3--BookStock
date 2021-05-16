@@ -52,8 +52,10 @@ namespace DB_lab_3__BookStock
             this.cboStores.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboStores.FormattingEnabled = true;
             this.cboStores.Location = new System.Drawing.Point(88, 16);
+            this.cboStores.MaxDropDownItems = 100;
             this.cboStores.Name = "cboStores";
             this.cboStores.Size = new System.Drawing.Size(300, 23);
+            this.cboStores.Sorted = true;
             this.cboStores.TabIndex = 1;
             // 
             // label2
@@ -70,8 +72,10 @@ namespace DB_lab_3__BookStock
             this.cboBooks.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboBooks.FormattingEnabled = true;
             this.cboBooks.Location = new System.Drawing.Point(89, 45);
+            this.cboBooks.MaxDropDownItems = 100;
             this.cboBooks.Name = "cboBooks";
             this.cboBooks.Size = new System.Drawing.Size(299, 23);
+            this.cboBooks.Sorted = true;
             this.cboBooks.TabIndex = 3;
             // 
             // label3
@@ -88,7 +92,7 @@ namespace DB_lab_3__BookStock
             this.textBox1.Location = new System.Drawing.Point(89, 78);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(95, 23);
-            this.textBox1.TabIndex = 5;           
+            this.textBox1.TabIndex = 5;
             // 
             // button1
             // 
@@ -98,7 +102,7 @@ namespace DB_lab_3__BookStock
             this.button1.TabIndex = 6;
             this.button1.Text = "Commit changes";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.addBook_Click);
+            this.button1.Click += new System.EventHandler(this.AddBook_Click);
             // 
             // AddBook
             // 
@@ -114,7 +118,7 @@ namespace DB_lab_3__BookStock
             this.Controls.Add(this.label1);
             this.Name = "AddBook";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Add book";           
+            this.Text = "Add book";
             this.ResumeLayout(false);
             this.PerformLayout();
 

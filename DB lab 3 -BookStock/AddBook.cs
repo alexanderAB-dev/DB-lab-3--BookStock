@@ -33,9 +33,9 @@ namespace DB_lab_3__BookStock
        
         
 
-        private void addBook_Click(object sender, EventArgs e)
+        private void AddBook_Click(object sender, EventArgs e)
         {
-            int storeID = Convert.ToInt32(cboStores.SelectedValue.GetHashCode());
+            string selectedStore = cboStores.GetItemText(cboStores.SelectedItem);           
             string selectedBook = cboBooks.GetItemText(cboBooks.SelectedItem);
            
             try
@@ -43,15 +43,16 @@ namespace DB_lab_3__BookStock
                 int quantity = int.Parse(textBox1.Text);
                 using (var context = new StoreContext())
                 {
-                    var id = (from b in context.Books where b.Title == selectedBook select b.Isbn13).FirstOrDefault();
-                    string isbn = id.ToString();
-                    context.CreateStock(storeID, isbn, quantity);
+                    int storeId = (from s in context.Stores where s.Name == selectedStore select s.Id).FirstOrDefault();
+                    string isbn = (from b in context.Books where b.Title == selectedBook select b.Isbn13).FirstOrDefault();                  
+                   
+                    context.CreateStock(storeId, isbn, quantity);
                 }
                 textBox1.Clear();
             }
             catch (System.FormatException) 
             {
-                MessageBox.Show("Quantiy must have a number.");
+                MessageBox.Show("Quantity must have a number.");
             }
 
         }        
